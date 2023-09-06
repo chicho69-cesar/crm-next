@@ -1,25 +1,17 @@
+import { GetStaticProps } from 'next'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 
-import { gql, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
+import { client } from '@/graphql/apollo-client'
 
 const inter = Inter({ subsets: ['latin'] })
 
-const query = gql`
-  query Query {
-    hello
-  }
-`
+interface Props {
+  message: string
+}
 
-export default function Home() {
-  const { data, loading, error } = useQuery(query)
-
-  console.log(data?.hello)
-
-  if (loading) {
-    return <p>Loading...</p>
-  }
-
+export default function Home({ message }: Props) {
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
@@ -29,6 +21,11 @@ export default function Home() {
           Get started by editing&nbsp;
           <code className="font-mono font-bold">pages/index.tsx</code>
         </p>
+
+        <h1 className='text-3xl text-slate-100 first-letter:text-4xl'>
+          {message}
+        </h1>
+
         <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
           <a
             className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
@@ -131,4 +128,22 @@ export default function Home() {
       </div>
     </main>
   )
+}
+
+const query = gql`
+  query Query {
+    hello
+  }
+`
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const { data } = await client.query({
+    query
+  })
+
+  return {
+    props: {
+      message: data.hello
+    }
+  }
 }
