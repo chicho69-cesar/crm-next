@@ -1,38 +1,55 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ⭐ CRM
 
-## Getting Started
+Para poder ejecutar la aplicación en tu propio entorno de desarrollo, debes de seguir los siguientes pasos:
 
-First, run the development server:
+## ⚙️ Configurar contenedor y volúmenes de Docker
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
+Para correr localmente el servidor, se necesita la base de datos corriendo, para ello debes de ejecutar el docker compose:
+
+```sh
+docker-compose up -d
+```
+
+## 🛠️ Establecer las variables de entorno
+
+Renombrar el archivo _.env.template_ a _.env_
+
+- **Mongo DB**:
+
+```env
+MONGO_URL=mongodb://localhost:27017/crmdb
+```
+
+## 🛠️ Reconstruir los módulos de Node y Levantar la Aplicación
+
+Para reconstruir los módulos de Node unicamente instalamos las dependencias, para esto ejecutamos el siguiente comando:
+
+```sh
+pnpm install
+```
+
+Una vez reconstruidos los módulos de Node, levantamos el entorno de ejecución en modo desarrollo de la aplicación con:
+
+```sh
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🐳 Correr la aplicación en contenedor de Docker
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Para poder correr la aplicación en un contenedor de _Docker_, necesitamos generar la _imagen_ de _Docker_ con el siguiente comando:
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```sh
+docker build -t crm-next .
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Después necesitamos correr la imagen generada en un contenedor, para esto usamos el siguiente comando:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```sh
+docker run --name=crm-next-app -p 3000:3000 crm-next
+```
 
-## Learn More
+Si se desea correr la aplicación de este contenedor en el puerto `80`, necesitamos especificarlo en el puerto:
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```sh
+docker run --name=crm-next-app -p 80:3000 crm-next
+```
