@@ -36,7 +36,7 @@ pnpm dev
 
 ## 🐳 Correr la aplicación en contenedor de Docker
 
-Para poder correr la aplicación en un contenedor de _Docker_, necesitamos generar la _imagen_ de _Docker_ con el siguiente comando:
+Para poder correr la aplicación en un contenedor de _Docker_, necesitamos generar la _imagen_ de _Docker_ con el siguiente comando. **Para esto debemos de tener en cuenta que debemos usar `pnpm`, si no es asi, debemos de actualizar el Dockerfile para que acepte otro package manager como `npm` o `yarn`**:
 
 ```sh
 docker build -t crm-next .
@@ -53,3 +53,11 @@ Si se desea correr la aplicación de este contenedor en el puerto `80`, necesita
 ```sh
 docker run --name=crm-next-app -p 80:3000 crm-next
 ```
+
+## 💜 Acceder al proyecto ejecutándose
+
+Para acceder al proyecto web una vez que esta corriendo, accedemos al enlace: <localhost:3000/>
+
+Si usamos el puerto 80: <localhost:80/>
+
+Para acceder al query sandbox de apollo server, accedemos al enlace: <localhost:3000/api/graphql>
