@@ -1,13 +1,4 @@
 {
-  "name": "react-advanced",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
   "dependencies": {
     "@apollo/client": "3.8.3",
     "@apollo/server": "4.9.2",
@@ -16,15 +7,29 @@
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.15",
+    "bcryptjs": "2.4.3",
     "eslint": "8.48.0",
     "eslint-config-next": "13.4.19",
     "graphql": "16.8.0",
     "graphql-tag": "2.12.6",
+    "js-cookie": "3.0.5",
+    "jsonwebtoken": "9.0.2",
+    "mongoose": "7.5.1",
     "next": "13.4.19",
     "postcss": "8.4.28",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.3",
-    "typescript": "5.2.2"
-  }
+    "typescript": "5.2.2",
+    "uuid": "9.0.0"
+  },
+  "name": "react-advanced",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start"
+  },
+  "version": "0.1.0"
 }
