@@ -1,4 +1,4 @@
-import { OrderStatus } from '@/enums/order-status'
+import { OrderStatus } from '@/enums'
 
 export interface IOrder {
   _id:        string
