@@ -58,6 +58,11 @@ export const typeDefs = gql`
     seller: [User]
   }
 
+  type SeedResponse {
+    wasSuccessful: Boolean
+    message: String
+  }
+
   input UserInput {
     name: String!
     lastName: String!
@@ -136,6 +141,9 @@ export const typeDefs = gql`
   type Mutation {
     # Test
     test(message: String): String
+
+    # Seed data
+    seedData: SeedResponse
 
     # Users
     # newUser(input: UserInput): User

@@ -1,3 +1,5 @@
+import { seedData } from '@/database'
+
 export const resolvers = {
   Query: {
     hello: () => 'Hello world!!!',
@@ -7,5 +9,6 @@ export const resolvers = {
       console.log(ctx.user)
       return ctx.user ? ctx.user?.name : 'User not authenticated'
     },
+    seedData: async () => await seedData(),
   }
 }
