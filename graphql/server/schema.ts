@@ -109,48 +109,51 @@ export const typeDefs = gql`
     hello: String
 
     # Users
-    getUser: User
+    # getUser: User
 
     # Products
-    getProducts: [Product]
-    getProduct(id: ID!): Product
+    # getProducts: [Product]
+    # getProduct(id: ID!): Product
 
     # Clients
-    getClients: [Client]
-    getClientsSeller: [Client]
-    getClient(id: ID!): Client
+    # getClients: [Client]
+    # getClientsSeller: [Client]
+    # getClient(id: ID!): Client
 
     # Orders
-    getOrders: [Order]
-    getOrdersSeller: [Order]
-    getOrder(id: ID!): Order
-    # getOrdersStatus(status: String!): [Order]
-    getOrdersStatus(status: OrderStatus!): [Order]
+    # getOrders: [Order]
+    # getOrdersSeller: [Order]
+    # getOrder(id: ID!): Order
+    #! getOrdersStatus(status: String!): [Order]
+    # getOrdersStatus(status: OrderStatus!): [Order]
 
     # Advanced Searches
-    topClients: [TopClient]
-    topSellers: [TopSeller]
-    searchProduct(text: String!): [Product]
+    # topClients: [TopClient]
+    # topSellers: [TopSeller]
+    # searchProduct(text: String!): [Product]
   }
 
   type Mutation {
+    # Test
+    test(message: String): String
+
     # Users
-    newUser(input: UserInput): User
-    authenticateUser(input: AuthenticateInput): Token
+    # newUser(input: UserInput): User
+    # authenticateUser(input: AuthenticateInput): Token
 
     # Products
-    newProduct(input: ProductInput): Product
-    updateProduct(id: ID!, input: ProductInput): Product
-    deleteProduct(id: ID!): String
+    # newProduct(input: ProductInput): Product
+    # updateProduct(id: ID!, input: ProductInput): Product
+    # deleteProduct(id: ID!): String
 
     # Clients
-    newClient(input: ClientInput): Client
-    updateClient(id: ID!, input: ClientInput): Client
-    deleteClient(id: ID!): String
+    # newClient(input: ClientInput): Client
+    # updateClient(id: ID!, input: ClientInput): Client
+    # deleteClient(id: ID!): String
 
     # Orders
-    newOrder(input: OrderInput): Order
-    updateOrder(id: ID!, input: OrderInput): Order
-    deleteOrder(id: ID!): String
+    # newOrder(input: OrderInput): Order
+    # updateOrder(id: ID!, input: OrderInput): Order
+    # deleteOrder(id: ID!): String
   }
 `

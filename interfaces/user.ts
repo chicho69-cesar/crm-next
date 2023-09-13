@@ -7,3 +7,9 @@ export interface IUser {
   createdAt?: string
   updatedAt?: string
 }
+
+export interface IUserLogged {
+  _id:   string
+  name:  string
+  email: string
+}
