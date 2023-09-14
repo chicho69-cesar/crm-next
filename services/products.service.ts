@@ -1,6 +1,5 @@
 import { Product } from '@/models'
 import * as db from '@/config/db'
-import { mapObject } from '@/utils'
 
 export async function newProduct(name: string, existence: number, price: number) {
   try {
@@ -37,4 +36,12 @@ export async function getProducts() {
 
     throw new Error('Error getting products')
   }
+}
+
+export async function getProduct(id: string) {
+  await db.connect()
+  const product = await Product.findById(id)
+  await db.disconnect()
+
+  return product
 }

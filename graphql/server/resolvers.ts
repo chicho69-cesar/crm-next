@@ -1,7 +1,7 @@
 import { seedData } from '@/database'
 import { IContext } from '@/interfaces'
 import { getUser, newUser, authenticateUser } from '@/services/users.service'
-import { newProduct, getProducts } from '@/services/products.service'
+import { newProduct, getProducts, getProduct } from '@/services/products.service'
 
 export const resolvers = {
   Query: {
@@ -13,7 +13,11 @@ export const resolvers = {
       return getUser(ctx.user._id)
     },
     // PRODUCTS
-    getProducts: async () => await getProducts()
+    getProducts: async () => await getProducts(),
+    getProduct: async (_: any, args: any) => {
+      const { id } = args
+      return await getProduct(id)
+    }
   },
   Mutation: {
     // TEST
