@@ -3,9 +3,9 @@ import { startServerAndCreateNextHandler } from '@as-integrations/next'
 
 import { resolvers, typeDefs } from '@/graphql/server'
 import { getLoggedUser } from '@/services/users.service'
-import { IUserLogged } from '@/interfaces'
+import { IUserLogged, IContext } from '@/interfaces'
 
-const server = new ApolloServer({
+const server = new ApolloServer<IContext>({
   typeDefs,
   resolvers,
 })
@@ -14,6 +14,6 @@ export default startServerAndCreateNextHandler(server, {
   context: async (req, res) => {
     const token = req.headers.authorization || ''
     let user: (IUserLogged | null) = await getLoggedUser(token)
-    return { req, res, user, }
+    return { req, res, user }
   }
 })
