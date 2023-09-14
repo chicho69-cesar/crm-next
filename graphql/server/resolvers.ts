@@ -9,6 +9,16 @@ export const resolvers = {
       console.log(ctx.user)
       return ctx.user ? ctx.user?.name : 'User not authenticated'
     },
-    seedData: async () => await seedData(),
+    seedData: async () => {
+      if (process.env.NODE_ENV === 'production') {
+        return {
+          wasSuccessful: false,
+          message: 'The seed of data is only available in development mode'
+        }
+      }
+
+      const result = await seedData()
+      return result
+    },
   }
 }

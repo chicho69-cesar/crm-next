@@ -1,4 +1,4 @@
-import { GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { gql } from '@apollo/client'
@@ -130,13 +130,13 @@ export default function Home({ message }: Props) {
   )
 }
 
-const query = gql`
-  query Query {
-    hello
-  }
-`
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const query = gql`
+    query Query {
+      hello
+    }
+  `
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
   const { data } = await client.query({
     query
   })
