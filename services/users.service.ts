@@ -48,8 +48,6 @@ export async function getUser(userId: string) {
   return user
 }
 
-// ... MUTATIONS
-
 export async function newUser(
   name: string,
   lastName: string,

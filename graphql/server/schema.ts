@@ -117,7 +117,7 @@ export const typeDefs = gql`
     getUser: User
 
     # Products
-    # getProducts: [Product]
+    getProducts: [Product]
     # getProduct(id: ID!): Product
 
     # Clients
@@ -150,7 +150,7 @@ export const typeDefs = gql`
     authenticateUser(input: AuthenticateInput): Token
 
     # Products
-    # newProduct(input: ProductInput): Product
+    newProduct(input: ProductInput): Product
     # updateProduct(id: ID!, input: ProductInput): Product
     # deleteProduct(id: ID!): String
 
