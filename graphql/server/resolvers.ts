@@ -1,5 +1,6 @@
 import { seedData } from '@/database'
 import { IContext } from '@/interfaces'
+import { authenticateUser } from '@/services/users.service'
 
 export const resolvers = {
   Query: {
@@ -7,7 +8,7 @@ export const resolvers = {
   },
   Mutation: {
     test: (root: any, args: any, ctx: IContext) => {
-      console.log(ctx.user)
+      console.log(args.message)
       return ctx.user ? ctx.user?.name : 'User not authenticated'
     },
     seedData: async () => {
@@ -21,5 +22,11 @@ export const resolvers = {
       const result = await seedData()
       return result
     },
+    // newUser,
+    authenticateUser: async (root: any, args: any) => {
+      const { email, password } = args.input
+      const token = await authenticateUser(email, password)
+      return { token }
+    }
   }
 }

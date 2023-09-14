@@ -1,7 +1,9 @@
+import bcrypt from 'bcryptjs'
+
 import { User } from '@/models'
 import * as db from '@/config/db'
 import { IUserLogged } from '@/interfaces'
-import { isValidToken } from '@/utils'
+import { isValidToken, signToken } from '@/utils'
 
 export async function getLoggedUser(token: string): Promise<IUserLogged | null> {
   if (!token) {
@@ -32,4 +34,26 @@ export async function getLoggedUser(token: string): Promise<IUserLogged | null> 
 
     return null
   }
+}
+
+// ... THE REST OF QUERIES
+
+// ... MUTATIONS
+
+// newUser
+
+export async function authenticateUser(
+  email: string,
+  password: string
+): Promise<string> {
+  await db.connect()
+  const userExists = await User.findOne({ email })
+  await db.disconnect()
+
+  if (!userExists) throw new Error('User not found')
+
+  const isCorrectPassword = await bcrypt.compare(password, userExists.password)
+  if (!isCorrectPassword) throw new Error('The password is incorrect')
+
+  return signToken(userExists._id, userExists.email)
 }

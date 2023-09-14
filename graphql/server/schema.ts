@@ -147,7 +147,7 @@ export const typeDefs = gql`
 
     # Users
     # newUser(input: UserInput): User
-    # authenticateUser(input: AuthenticateInput): Token
+    authenticateUser(input: AuthenticateInput): Token
 
     # Products
     # newProduct(input: ProductInput): Product
