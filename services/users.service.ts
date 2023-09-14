@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 import { User } from '@/models'
 import * as db from '@/config/db'
 import { IUserLogged } from '@/interfaces'
-import { isValidToken, signToken } from '@/utils'
+import { isValidToken, signToken, mapObject } from '@/utils'
 
 export async function getLoggedUser(token: string): Promise<IUserLogged | null> {
   if (!token) {
@@ -36,7 +36,17 @@ export async function getLoggedUser(token: string): Promise<IUserLogged | null> 
   }
 }
 
-// ... THE REST OF QUERIES
+export async function getUser(userId: string) {
+  await db.connect()
+
+  const userExists = await User.findById(userId).lean()
+  if (!userExists) throw new Error('User is not registered yet')
+
+  await db.disconnect()
+
+  const user = await mapObject(userExists)
+  return user
+}
 
 // ... MUTATIONS
 

@@ -114,7 +114,7 @@ export const typeDefs = gql`
     hello: String
 
     # Users
-    # getUser: User
+    getUser: User
 
     # Products
     # getProducts: [Product]
