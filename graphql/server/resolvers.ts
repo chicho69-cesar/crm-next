@@ -1,6 +1,6 @@
 import { seedData } from '@/database'
 import { IContext } from '@/interfaces'
-import { authenticateUser } from '@/services/users.service'
+import { newUser, authenticateUser } from '@/services/users.service'
 
 export const resolvers = {
   Query: {
@@ -22,8 +22,11 @@ export const resolvers = {
       const result = await seedData()
       return result
     },
-    // newUser,
-    authenticateUser: async (root: any, args: any) => {
+    newUser: async (_: any, args: any) => {
+      const { name, lastName, email, password } = args.input
+      return newUser(name, lastName, email, password)
+    },
+    authenticateUser: async (_: any, args: any) => {
       const { email, password } = args.input
       const token = await authenticateUser(email, password)
       return { token }

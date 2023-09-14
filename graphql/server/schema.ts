@@ -146,7 +146,7 @@ export const typeDefs = gql`
     seedData: SeedResponse
 
     # Users
-    # newUser(input: UserInput): User
+    newUser(input: UserInput): User
     authenticateUser(input: AuthenticateInput): Token
 
     # Products

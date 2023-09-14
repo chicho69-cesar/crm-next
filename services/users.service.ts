@@ -40,14 +40,43 @@ export async function getLoggedUser(token: string): Promise<IUserLogged | null> 
 
 // ... MUTATIONS
 
-// newUser
-
-export async function authenticateUser(
+export async function newUser(
+  name: string,
+  lastName: string,
   email: string,
   password: string
-): Promise<string> {
+) {
   await db.connect()
-  const userExists = await User.findOne({ email })
+
+  const userExists = await User.findOne({ email }).lean()
+  if (userExists) throw new Error('User is already registered')
+
+  const salt = await bcrypt.genSalt(10)
+  const hashedPassword = await bcrypt.hash(password, salt)
+
+  try {
+    const user = new User({
+      name,
+      lastName,
+      email,
+      password: hashedPassword,
+    })
+
+    await user.save()
+    await db.disconnect()
+
+    return user
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error('Error creating the user')
+  }
+}
+
+export async function authenticateUser(email: string, password: string) {
+  await db.connect()
+  const userExists = await User.findOne({ email }).lean()
   await db.disconnect()
 
   if (!userExists) throw new Error('User not found')
