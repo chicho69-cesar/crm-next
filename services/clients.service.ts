@@ -35,3 +35,18 @@ export async function newClient(
     throw new Error('Error creating client')
   }
 }
+
+export async function getClients() {
+  try {
+    await db.connect()
+    const clients = await Client.find({})
+    await db.disconnect()
+
+    return clients
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error('Error getting clients')
+  }
+}

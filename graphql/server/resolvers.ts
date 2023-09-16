@@ -2,22 +2,30 @@ import { seedData } from '@/database'
 import { IContext } from '@/interfaces'
 import { getUser, newUser, authenticateUser } from '@/services/users.service'
 import { newProduct, getProducts, getProduct, updateProduct, deleteProduct } from '@/services/products.service'
-import { newClient } from '@/services/clients.service'
+import { getClients, newClient } from '@/services/clients.service'
 
 export const resolvers = {
   Query: {
     // TEST
-    hello: () => 'Hello world!!!',
+    hello: () => {
+      return 'Hello world!!!'
+    },
     // USERS
     getUser: async (root: any, args: any, ctx: IContext ) => {
       if (!ctx.user) throw new Error('User not authenticated')
       return getUser(ctx.user._id)
     },
     // PRODUCTS
-    getProducts: async () => getProducts(),
+    getProducts: async () => {
+      return getProducts()
+    },
     getProduct: async (_: any, args: any) => {
       const { id } = args
       return getProduct(id)
+    },
+    // CLIENTS
+    getClients: async () => {
+      return getClients()
     }
   },
   Mutation: {
