@@ -133,9 +133,9 @@ export const typeDefs = gql`
     getOrdersStatus(status: OrderStatus!): [Order]
 
     # Advanced Searches
-    # topClients: [TopClient]
-    # topSellers: [TopSeller]
-    # searchProduct(text: String!): [Product]
+    topClients: [TopClient]
+    topSellers: [TopSeller]
+    searchProduct(text: String!): [Product]
   }
 
   type Mutation {

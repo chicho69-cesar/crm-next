@@ -3,7 +3,7 @@ import { IContext } from '@/interfaces'
 import { getUser, newUser, authenticateUser } from '@/services/users.service'
 import { newProduct, getProducts, getProduct, updateProduct, deleteProduct } from '@/services/products.service'
 import { deleteClient, getClient, getClients, getClientsSeller, newClient, updateClient } from '@/services/clients.service'
-import { getOrder, getOrders, getOrdersSeller, getOrdersStatus, newOrder } from '@/services/orders.service'
+import { getOrder, getOrders, getOrdersSeller, getOrdersStatus, newOrder, topClients, topSellers } from '@/services/orders.service'
 
 /* TODO: Add types for root and args */
 export const resolvers = {
@@ -68,6 +68,16 @@ export const resolvers = {
       const { status } = args
 
       return getOrdersStatus(status, sellerId)
+    },
+    // ADVANCED
+    topClients: async () => {
+      return topClients()
+    },
+    topSellers: async () => {
+      return topSellers()
+    },
+    searchProduct: async (_: any, args: any) => {
+      // 
     }
   },
   Mutation: {

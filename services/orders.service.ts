@@ -125,3 +125,87 @@ export async function getOrdersStatus(status: OrderStatus, sellerId: string) {
     throw new Error(`Error getting the orders with status: ${status}`)
   }
 }
+
+
+
+
+
+
+
+export async function topClients() {
+  try {
+    await db.connect()
+
+    const clients = await Order.aggregate([
+      {
+        $match: {
+          status: OrderStatus.COMPLETED
+        }
+      },
+      {
+        $group: {
+          _id: '$client',
+          total: { $sum: '$total' },
+        }
+      },
+      {
+        $lookup: {
+          from: 'clients',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'client'
+        }
+      },
+      { $limit: 10 },
+      { $sort: { total: -1 } }
+    ])
+
+    await db.disconnect()
+
+    return clients
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error('Error querying the top clients')
+  }
+}
+
+export async function topSellers() {
+  try {
+    await db.connect()
+
+    const sellers = await Order.aggregate([
+      {
+        $match: {
+          status: OrderStatus.COMPLETED
+        }
+      },
+      {
+        $group: {
+          _id: '$seller',
+          total: { $sum: '$total' },
+        }
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'seller'
+        }
+      },
+      { $limit: 3 },
+      { $sort: { total: -1 } }
+    ])
+
+    await db.disconnect()
+
+    return sellers
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error('Error querying the top sellers')
+  }
+}
