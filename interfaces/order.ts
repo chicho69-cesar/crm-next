@@ -13,8 +13,10 @@ export interface IOrder {
 }
 
 export interface IOrderGroup {
-  _id: string
+  _id:      string
   quantity: number
-  name: string
-  price: number
+  name:     string
+  price:    number
 }
+
+export type IOrderGroupWithId = IOrderGroup & { id: string }

@@ -3,6 +3,7 @@ import { IContext } from '@/interfaces'
 import { getUser, newUser, authenticateUser } from '@/services/users.service'
 import { newProduct, getProducts, getProduct, updateProduct, deleteProduct } from '@/services/products.service'
 import { deleteClient, getClient, getClients, getClientsSeller, newClient, updateClient } from '@/services/clients.service'
+import { newOrder } from '@/services/orders.service'
 
 /* TODO: Add types for root and args */
 export const resolvers = {
@@ -111,6 +112,15 @@ export const resolvers = {
       const { _id: seller } = ctx.user
 
       return deleteClient(clientId, seller)
+    },
+    // ORDERS
+    newOrder: async (_: any, args: any, ctx: IContext) => {
+      if (ctx.user == null) throw new Error('Seller must be authenticated')
+
+      const { order, total, client, status } = args.input
+      const { _id: seller } = ctx.user
+
+      return newOrder(client, order, total, status, seller)
     }
   }
 }

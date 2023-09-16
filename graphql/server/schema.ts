@@ -160,7 +160,7 @@ export const typeDefs = gql`
     deleteClient(id: ID!): String
 
     # Orders
-    # newOrder(input: OrderInput): Order
+    newOrder(input: OrderInput): Order
     # updateOrder(id: ID!, input: OrderInput): Order
     # deleteOrder(id: ID!): String
   }
