@@ -126,11 +126,11 @@ export const typeDefs = gql`
     getClient(id: ID!): Client
 
     # Orders
-    # getOrders: [Order]
-    # getOrdersSeller: [Order]
-    # getOrder(id: ID!): Order
+    getOrders: [Order]
+    getOrdersSeller: [Order]
+    getOrder(id: ID!): Order
     #! getOrdersStatus(status: String!): [Order]
-    # getOrdersStatus(status: OrderStatus!): [Order]
+    getOrdersStatus(status: OrderStatus!): [Order]
 
     # Advanced Searches
     # topClients: [TopClient]

@@ -53,3 +53,75 @@ export async function newOrder(
     throw new Error((error as GqlError).message)
   }
 }
+
+export async function getOrders() {
+  try {
+    await db.connect()
+    const orders = await Order.find({}).populate('client')
+    await db.disconnect()
+
+    return orders
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error('Error getting the orders')
+  }
+}
+
+export async function getOrdersSeller(sellerId: string) {
+  try {
+    await db.connect()
+    
+    const orders = await Order.find({
+      seller: sellerId
+    }).populate('client')
+
+    await db.disconnect()
+
+    return orders
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error(`Error getting the orders sold of the seller with id: ${sellerId}`)
+  }
+}
+
+export async function getOrder(id: string, sellerId: string) {
+  try {
+    await db.connect()
+    const order = await Order.findById(id).populate('client')
+    await db.disconnect()
+
+    if (!order) throw new Error('This order does not exists')
+    if (order.seller.toString() !== sellerId.toString()) throw new Error('This order does not belongs to this seller')
+
+    return order
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error((error as GqlError).message)
+  }
+}
+
+export async function getOrdersStatus(status: OrderStatus, sellerId: string) {
+  try {
+    await db.connect()
+    
+    const orders = await Order.find({
+      seller: sellerId,
+      status
+    }).populate('client')
+
+    await db.disconnect()
+
+    return orders
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error(`Error getting the orders with status: ${status}`)
+  }
+}

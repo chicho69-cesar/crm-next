@@ -3,7 +3,7 @@ import { IContext } from '@/interfaces'
 import { getUser, newUser, authenticateUser } from '@/services/users.service'
 import { newProduct, getProducts, getProduct, updateProduct, deleteProduct } from '@/services/products.service'
 import { deleteClient, getClient, getClients, getClientsSeller, newClient, updateClient } from '@/services/clients.service'
-import { newOrder } from '@/services/orders.service'
+import { getOrder, getOrders, getOrdersSeller, getOrdersStatus, newOrder } from '@/services/orders.service'
 
 /* TODO: Add types for root and args */
 export const resolvers = {
@@ -43,6 +43,31 @@ export const resolvers = {
       console.log({ id, sellerId })
 
       return getClient(id, sellerId)
+    },
+    // ORDERS
+    getOrders: async () => {
+      return getOrders()
+    },
+    getOrdersSeller: async (_:any, args: any, ctx: IContext) => {
+      if (ctx.user == null) throw new Error('Seller must be authenticated')
+      const { _id: sellerId } = ctx.user
+      return getOrdersSeller(sellerId)
+    },
+    getOrder: async (_: any, args: any, ctx: IContext) => {
+      if (ctx.user == null) throw new Error('Seller must be authenticated')
+      
+      const { _id: sellerId } = ctx.user
+      const { id } = args
+
+      return getOrder(id, sellerId)
+    },
+    getOrdersStatus: async (_: any, args: any, ctx: IContext) => {
+      if (ctx.user == null) throw new Error('Seller must be authenticated')
+      
+      const { _id: sellerId } = ctx.user
+      const { status } = args
+
+      return getOrdersStatus(status, sellerId)
     }
   },
   Mutation: {
