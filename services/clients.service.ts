@@ -84,3 +84,37 @@ export async function getClient(clientId: string, sellerId: string) {
     throw new Error((error as GqlError).message)
   }
 }
+
+export async function updateClient(
+  clientId: string,
+  seller: string,
+  name: string,
+  lastName: string,
+  company: string,
+  email: string,
+  phone: (string | null),
+) {
+  try {
+    await db.connect()
+    
+    const client = await Client.findById(clientId)
+
+    if (!client) throw new Error('This client does not exists')
+    if (client.seller.toString() !== seller.toString()) throw new Error('This client does not belongs to this seller')
+
+    const clientUpdated = await Client.findByIdAndUpdate(
+      { _id: clientId },
+      { name, lastName, company, email, phone },
+      { new: true }
+    )
+
+    await db.disconnect()
+
+    return clientUpdated
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error((error as GqlError).message)
+  }
+}
