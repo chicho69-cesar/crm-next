@@ -155,7 +155,7 @@ export const typeDefs = gql`
     deleteProduct(id: ID!): String
 
     # Clients
-    # newClient(input: ClientInput): Client
+    newClient(input: ClientInput): Client
     # updateClient(id: ID!, input: ClientInput): Client
     # deleteClient(id: ID!): String
 

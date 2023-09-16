@@ -2,26 +2,27 @@ import { seedData } from '@/database'
 import { IContext } from '@/interfaces'
 import { getUser, newUser, authenticateUser } from '@/services/users.service'
 import { newProduct, getProducts, getProduct, updateProduct, deleteProduct } from '@/services/products.service'
+import { newClient } from '@/services/clients.service'
 
 export const resolvers = {
   Query: {
     // TEST
     hello: () => 'Hello world!!!',
     // USERS
-    getUser: (root: any, args: any, ctx: IContext ) => {
+    getUser: async (root: any, args: any, ctx: IContext ) => {
       if (!ctx.user) throw new Error('User not authenticated')
       return getUser(ctx.user._id)
     },
     // PRODUCTS
-    getProducts: async () => await getProducts(),
+    getProducts: async () => getProducts(),
     getProduct: async (_: any, args: any) => {
       const { id } = args
-      return await getProduct(id)
+      return getProduct(id)
     }
   },
   Mutation: {
     // TEST
-    test: (_: any, args: any, ctx: IContext) => {
+    test: async (_: any, args: any, ctx: IContext) => {
       console.log(args.message)
       return ctx.user ? ctx.user?.name : 'User not authenticated'
     },
@@ -50,7 +51,7 @@ export const resolvers = {
     // PRODUCTS
     newProduct: async (_: any, args: any) => {
       const { name, existence, price } = args.input
-      return await newProduct(name, existence, price)
+      return newProduct(name, existence, price)
     },
     updateProduct: async (_: any, args: any) => {
       const { id } = args
@@ -60,6 +61,15 @@ export const resolvers = {
     deleteProduct: async (_: any, args: any) => {
       const { id } = args
       return deleteProduct(id)
+    },
+    // CLIENTS
+    newClient: async (_: any, args: any, ctx: IContext) => {
+      if (ctx.user == null) throw new Error('Client must be authenticated')
+
+      const { name, lastName, company, email, phone } = args.input
+      const seller = ctx.user._id
+
+      return newClient(name, lastName, company, email, phone, seller)
     }
   }
 }

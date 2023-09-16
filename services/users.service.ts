@@ -37,15 +37,21 @@ export async function getLoggedUser(token: string): Promise<IUserLogged | null> 
 }
 
 export async function getUser(userId: string) {
-  await db.connect()
+  try {
+    await db.connect()
+    const userExists = await User.findById(userId).lean()
+    await db.disconnect()
+    
+    if (!userExists) throw new Error('User is not registered yet')
+  
+    const user = await mapObject(userExists)
+    return user
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
 
-  const userExists = await User.findById(userId).lean()
-  if (!userExists) throw new Error('User is not registered yet')
-
-  await db.disconnect()
-
-  const user = await mapObject(userExists)
-  return user
+    throw new Error('Error getting the user')
+  }
 }
 
 export async function newUser(
