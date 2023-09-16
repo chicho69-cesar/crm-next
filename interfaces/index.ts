@@ -1,5 +1,6 @@
 export * from './client'
 export * from './context'
+export * from './error'
 export * from './order'
 export * from './product'
 export * from './user'

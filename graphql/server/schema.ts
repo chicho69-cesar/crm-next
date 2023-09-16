@@ -122,8 +122,8 @@ export const typeDefs = gql`
 
     # Clients
     getClients: [Client]
-    # getClientsSeller: [Client]
-    # getClient(id: ID!): Client
+    getClientsSeller: [Client]
+    getClient(id: ID!): Client
 
     # Orders
     # getOrders: [Order]

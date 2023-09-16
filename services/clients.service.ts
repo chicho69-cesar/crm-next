@@ -1,5 +1,6 @@
 import { Client } from '@/models'
 import * as db from '@/config/db'
+import type { GqlError } from '@/interfaces'
 
 export async function newClient(
   name: string,
@@ -48,5 +49,38 @@ export async function getClients() {
     await db.disconnect()
 
     throw new Error('Error getting clients')
+  }
+}
+
+export async function getClientsSeller(sellerId: string) {
+  try {
+    await db.connect()
+    const clients = await Client.find({ seller: sellerId })
+    await db.disconnect()
+
+    return clients
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error(`Error getting the clients of the seller with id: ${sellerId}`)
+  }
+}
+
+export async function getClient(clientId: string, sellerId: string) {
+  try {
+    await db.connect()
+    const client = await Client.findById(clientId)
+    await db.disconnect()
+
+    if (!client) throw new Error('This client does not exists')
+    if (client.seller.toString() !== sellerId.toString()) throw new Error('This client does not belongs to this seller')
+
+    return client
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error((error as GqlError).message)
   }
 }

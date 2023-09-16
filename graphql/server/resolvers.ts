@@ -2,7 +2,7 @@ import { seedData } from '@/database'
 import { IContext } from '@/interfaces'
 import { getUser, newUser, authenticateUser } from '@/services/users.service'
 import { newProduct, getProducts, getProduct, updateProduct, deleteProduct } from '@/services/products.service'
-import { getClients, newClient } from '@/services/clients.service'
+import { getClient, getClients, getClientsSeller, newClient } from '@/services/clients.service'
 
 export const resolvers = {
   Query: {
@@ -26,6 +26,21 @@ export const resolvers = {
     // CLIENTS
     getClients: async () => {
       return getClients()
+    },
+    getClientsSeller: async (_: any, args: any, ctx: IContext) => {
+      if (ctx.user == null) throw new Error('Seller must be authenticated')
+      const { _id: sellerId } = ctx.user
+      return getClientsSeller(sellerId)
+    },
+    getClient: async (_: any, args: any, ctx: IContext) => {
+      if (ctx.user == null) throw new Error('Seller must be authenticated')
+
+      const { _id: sellerId } = ctx.user
+      const { id } = args
+
+      console.log({ id, sellerId })
+
+      return getClient(id, sellerId)
     }
   },
   Mutation: {
@@ -72,7 +87,7 @@ export const resolvers = {
     },
     // CLIENTS
     newClient: async (_: any, args: any, ctx: IContext) => {
-      if (ctx.user == null) throw new Error('Client must be authenticated')
+      if (ctx.user == null) throw new Error('Seller must be authenticated')
 
       const { name, lastName, company, email, phone } = args.input
       const seller = ctx.user._id
