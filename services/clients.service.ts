@@ -118,3 +118,24 @@ export async function updateClient(
     throw new Error((error as GqlError).message)
   }
 }
+
+export async function deleteClient(clientId: string, sellerId: string) {
+  try {
+    await db.connect()
+
+    const client = await Client.findById(clientId)
+
+    if (!client) throw new Error(`The client with id: ${clientId} does not exists`)
+    if (client.seller.toString() !== sellerId.toString()) throw new Error('This client does not belongs to this seller')
+
+    await Client.findOneAndDelete({ _id: clientId })
+    await db.disconnect()
+
+    return 'The client was deleted successfully'
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error((error as GqlError).message)
+  }
+}

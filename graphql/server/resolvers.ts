@@ -2,7 +2,7 @@ import { seedData } from '@/database'
 import { IContext } from '@/interfaces'
 import { getUser, newUser, authenticateUser } from '@/services/users.service'
 import { newProduct, getProducts, getProduct, updateProduct, deleteProduct } from '@/services/products.service'
-import { getClient, getClients, getClientsSeller, newClient, updateClient } from '@/services/clients.service'
+import { deleteClient, getClient, getClients, getClientsSeller, newClient, updateClient } from '@/services/clients.service'
 
 /* TODO: Add types for root and args */
 export const resolvers = {
@@ -103,6 +103,14 @@ export const resolvers = {
       const { name, lastName, company, email, phone } = args.input
 
       return updateClient(clientId, seller, name, lastName, company, email, phone)
+    },
+    deleteClient: async (_: any, args: any, ctx: IContext) => {
+      if (ctx.user == null) throw new Error('Seller must be authenticated')
+
+      const { id: clientId } = args
+      const { _id: seller } = ctx.user
+
+      return deleteClient(clientId, seller)
     }
   }
 }
