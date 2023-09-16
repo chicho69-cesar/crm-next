@@ -1,7 +1,7 @@
 import { seedData } from '@/database'
 import { IContext } from '@/interfaces'
 import { getUser, newUser, authenticateUser } from '@/services/users.service'
-import { newProduct, getProducts, getProduct } from '@/services/products.service'
+import { newProduct, getProducts, getProduct, updateProduct } from '@/services/products.service'
 
 export const resolvers = {
   Query: {
@@ -51,6 +51,11 @@ export const resolvers = {
     newProduct: async (_: any, args: any) => {
       const { name, existence, price } = args.input
       return await newProduct(name, existence, price)
+    },
+    updateProduct: async (_: any, args: any) => {
+      const { id } = args
+      const { name, existence, price } = args.input
+      return updateProduct(id, name, existence, price)
     }
   }
 }

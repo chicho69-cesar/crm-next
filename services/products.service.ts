@@ -45,3 +45,30 @@ export async function getProduct(id: string) {
 
   return product
 }
+
+export async function updateProduct(
+  id: string,
+  name: string,
+  existence: number,
+  price: number
+) {
+  await db.connect()
+
+  const product = await Product.findById(id)
+  if (!product) throw new Error('This product does not exists')
+
+  try {
+    const productUpdated = await Product.findOneAndUpdate(
+      { _id: id },
+      { name, existence, price },
+      { new: true }
+    )
+
+    await db.disconnect()
+
+    return productUpdated
+  } catch (error) {
+    console.log(error)
+    throw new Error(`Error updating the product with id: ${id}`)
+  }
+}
