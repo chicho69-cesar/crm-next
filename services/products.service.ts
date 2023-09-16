@@ -39,11 +39,18 @@ export async function getProducts() {
 }
 
 export async function getProduct(id: string) {
-  await db.connect()
-  const product = await Product.findById(id)
-  await db.disconnect()
+  try {
+    await db.connect()
+    const product = await Product.findById(id)
+    await db.disconnect()
+  
+    return product
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
 
-  return product
+    throw new Error(`Error getting the product with id: ${id}`)
+  }
 }
 
 export async function updateProduct(
@@ -70,5 +77,22 @@ export async function updateProduct(
   } catch (error) {
     console.log(error)
     throw new Error(`Error updating the product with id: ${id}`)
+  }
+}
+
+export async function deleteProduct(id: string) {
+  await db.connect()
+
+  const product = await Product.findById(id)
+  if (!product) throw new Error('This product does not exists')
+
+  try {
+    await Product.findOneAndDelete({ _id: id })
+    await db.disconnect()
+
+    return 'The product was deleted successfully'
+  } catch (error) {
+    console.log(error)
+    throw new Error(`Error deleting the product with id: ${id}`)
   }
 }
