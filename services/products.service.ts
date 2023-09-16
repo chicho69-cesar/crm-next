@@ -97,3 +97,22 @@ export async function deleteProduct(id: string) {
     throw new Error((error as GqlError).message)
   }
 }
+
+export async function searchProduct(search: string) {
+  try {
+    await db.connect()
+
+    const products = await Product.find({
+      $text: { $search: search },
+    }).limit(10)
+
+    await db.disconnect()
+
+    return products
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error('Error searching the products')
+  }
+}

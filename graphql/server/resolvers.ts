@@ -1,7 +1,7 @@
 import { seedData } from '@/database'
 import { IContext } from '@/interfaces'
 import { getUser, newUser, authenticateUser } from '@/services/users.service'
-import { newProduct, getProducts, getProduct, updateProduct, deleteProduct } from '@/services/products.service'
+import { newProduct, getProducts, getProduct, updateProduct, deleteProduct, searchProduct } from '@/services/products.service'
 import { deleteClient, getClient, getClients, getClientsSeller, newClient, updateClient } from '@/services/clients.service'
 import { getOrder, getOrders, getOrdersSeller, getOrdersStatus, newOrder, topClients, topSellers } from '@/services/orders.service'
 
@@ -77,7 +77,8 @@ export const resolvers = {
       return topSellers()
     },
     searchProduct: async (_: any, args: any) => {
-      // 
+      const { text } = args
+      return searchProduct(text)
     }
   },
   Mutation: {
