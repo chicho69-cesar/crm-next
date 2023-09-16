@@ -1,5 +1,6 @@
 import { Product } from '@/models'
 import * as db from '@/config/db'
+import type { GqlError } from '@/interfaces'
 
 export async function newProduct(name: string, existence: number, price: number) {
   try {
@@ -76,7 +77,7 @@ export async function updateProduct(
     return productUpdated
   } catch (error) {
     console.log(error)
-    throw new Error(`Error updating the product with id: ${id}`)
+    throw new Error((error as GqlError).message)
   }
 }
 
@@ -93,6 +94,6 @@ export async function deleteProduct(id: string) {
     return 'The product was deleted successfully'
   } catch (error) {
     console.log(error)
-    throw new Error(`Error deleting the product with id: ${id}`)
+    throw new Error((error as GqlError).message)
   }
 }

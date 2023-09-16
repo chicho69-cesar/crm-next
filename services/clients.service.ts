@@ -33,7 +33,7 @@ export async function newClient(
     console.log(error)
     await db.disconnect()
 
-    throw new Error('Error creating client')
+    throw new Error((error as GqlError).message)
   }
 }
 
@@ -48,7 +48,7 @@ export async function getClients() {
     console.log(error)
     await db.disconnect()
 
-    throw new Error('Error getting clients')
+    throw new Error('Error getting the clients')
   }
 }
 

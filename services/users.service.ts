@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs'
 
 import { User } from '@/models'
 import * as db from '@/config/db'
-import { IUserLogged } from '@/interfaces'
+import { IUserLogged, GqlError } from '@/interfaces'
 import { isValidToken, signToken, mapObject } from '@/utils'
 
 export async function getLoggedUser(token: string): Promise<IUserLogged | null> {
@@ -50,7 +50,7 @@ export async function getUser(userId: string) {
     console.log(error)
     await db.disconnect()
 
-    throw new Error('Error getting the user')
+    throw new Error((error as GqlError).message)
   }
 }
 
@@ -84,7 +84,7 @@ export async function newUser(
     console.log(error)
     await db.disconnect()
 
-    throw new Error('Error creating the user')
+    throw new Error((error as GqlError).message)
   }
 }
 
