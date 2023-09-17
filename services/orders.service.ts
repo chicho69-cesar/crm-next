@@ -2,6 +2,7 @@ import { Product, Order, Client } from '@/models'
 import * as db from '@/config/db'
 import type { GqlError, IOrderGroupWithId } from '@/interfaces'
 import { OrderStatus } from '@/enums'
+import { mapObject } from '@/utils'
 
 export async function newOrder(
   client: string,
@@ -166,7 +167,8 @@ export async function updateOrder(
       { order, total, status, client, seller: sellerId },
       { new: true }
     )
-
+    
+    await result?.populate('client')
     await db.disconnect()
 
     return result
@@ -178,9 +180,26 @@ export async function updateOrder(
   }
 }
 
+export async function deleteOrder(orderId: string, sellerId: string) {
+  try {
+    await db.connect()
 
+    const order = await Order.findById(orderId)
 
+    if (!order) throw new Error(`The order with id: ${orderId} does not exists`)
+    if (order.seller.toString() !== sellerId.toString()) throw new Error('This order does not belongs to this seller')
 
+    await Order.findOneAndDelete({ _id: orderId })
+    await db.disconnect()
+
+    return 'The order was deleted successfully'
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error((error as GqlError).message)
+  }
+}
 
 export async function topClients() {
   try {
@@ -204,6 +223,18 @@ export async function topClients() {
           localField: '_id',
           foreignField: '_id',
           as: 'client'
+        }
+      },
+      {
+        $project: {
+          total: 1,
+          'client.id': '$_id',
+          'client.name': 1,
+          'client.lastName': 1,
+          'client.email': 1,
+          'client.company': 1,
+          'client.phone': 1,
+          'client.seller': 1,
         }
       },
       { $limit: 10 },
@@ -243,6 +274,16 @@ export async function topSellers() {
           localField: '_id',
           foreignField: '_id',
           as: 'seller'
+        }
+      },
+      {
+        $project: {
+          total: 1,
+          'seller.id': '$_id',
+          'seller.name': 1,
+          'seller.lastName': 1,
+          'seller.email': 1,
+          'seller.createdAt': 1,
         }
       },
       { $limit: 3 },
