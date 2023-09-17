@@ -1,27 +1,28 @@
 import { seedData } from '@/database'
-import { IContext } from '@/interfaces'
+import { Resolver } from '@/interfaces'
 import { getUser, newUser, authenticateUser } from '@/services/users.service'
 import { newProduct, getProducts, getProduct, updateProduct, deleteProduct, searchProduct } from '@/services/products.service'
 import { deleteClient, getClient, getClients, getClientsSeller, newClient, updateClient } from '@/services/clients.service'
 import { deleteOrder, getOrder, getOrders, getOrdersSeller, getOrdersStatus, newOrder, topClients, topSellers, updateOrder } from '@/services/orders.service'
 
-/* TODO: Add types for root and args */
-export const resolvers = {
+export const resolvers: Resolver = {
   Query: {
     // TEST
     hello: () => {
       return 'Hello world!!!'
     },
     // USERS
-    getUser: async (root: any, args: any, ctx: IContext ) => {
+    getUser: async (root, args, ctx) => {
       if (!ctx.user) throw new Error('User not authenticated')
-      return getUser(ctx.user._id)
+      
+      const { _id: userId } = ctx.user
+      return getUser(userId)
     },
     // PRODUCTS
     getProducts: async () => {
       return getProducts()
     },
-    getProduct: async (_: any, args: any) => {
+    getProduct: async (_, args) => {
       const { id } = args
       return getProduct(id)
     },
@@ -29,18 +30,17 @@ export const resolvers = {
     getClients: async () => {
       return getClients()
     },
-    getClientsSeller: async (_: any, args: any, ctx: IContext) => {
+    getClientsSeller: async (_, __, ctx) => {
       if (ctx.user == null) throw new Error('Seller must be authenticated')
+      
       const { _id: sellerId } = ctx.user
       return getClientsSeller(sellerId)
     },
-    getClient: async (_: any, args: any, ctx: IContext) => {
+    getClient: async (_, args, ctx) => {
       if (ctx.user == null) throw new Error('Seller must be authenticated')
 
       const { _id: sellerId } = ctx.user
       const { id } = args
-
-      console.log({ id, sellerId })
 
       return getClient(id, sellerId)
     },
@@ -48,12 +48,13 @@ export const resolvers = {
     getOrders: async () => {
       return getOrders()
     },
-    getOrdersSeller: async (_:any, args: any, ctx: IContext) => {
+    getOrdersSeller: async (_, __, ctx) => {
       if (ctx.user == null) throw new Error('Seller must be authenticated')
+      
       const { _id: sellerId } = ctx.user
       return getOrdersSeller(sellerId)
     },
-    getOrder: async (_: any, args: any, ctx: IContext) => {
+    getOrder: async (_, args, ctx) => {
       if (ctx.user == null) throw new Error('Seller must be authenticated')
       
       const { _id: sellerId } = ctx.user
@@ -61,7 +62,7 @@ export const resolvers = {
 
       return getOrder(id, sellerId)
     },
-    getOrdersStatus: async (_: any, args: any, ctx: IContext) => {
+    getOrdersStatus: async (_, args, ctx) => {
       if (ctx.user == null) throw new Error('Seller must be authenticated')
       
       const { _id: sellerId } = ctx.user
@@ -76,14 +77,14 @@ export const resolvers = {
     topSellers: async () => {
       return topSellers()
     },
-    searchProduct: async (_: any, args: any) => {
+    searchProduct: async (_, args) => {
       const { text } = args
       return searchProduct(text)
     }
   },
   Mutation: {
     // TEST
-    test: async (_: any, args: any, ctx: IContext) => {
+    test: async (_, args, ctx) => {
       console.log(args.message)
       return ctx.user ? ctx.user?.name : 'User not authenticated'
     },
@@ -100,31 +101,31 @@ export const resolvers = {
       return result
     },
     // USERS
-    newUser: async (_: any, args: any) => {
+    newUser: async (_, args) => {
       const { name, lastName, email, password } = args.input
       return newUser(name, lastName, email, password)
     },
-    authenticateUser: async (_: any, args: any) => {
+    authenticateUser: async (_, args) => {
       const { email, password } = args.input
       const token = await authenticateUser(email, password)
       return { token }
     },
     // PRODUCTS
-    newProduct: async (_: any, args: any) => {
+    newProduct: async (_, args) => {
       const { name, existence, price } = args.input
       return newProduct(name, existence, price)
     },
-    updateProduct: async (_: any, args: any) => {
+    updateProduct: async (_, args) => {
       const { id } = args
       const { name, existence, price } = args.input
       return updateProduct(id, name, existence, price)
     },
-    deleteProduct: async (_: any, args: any) => {
+    deleteProduct: async (_, args) => {
       const { id } = args
       return deleteProduct(id)
     },
     // CLIENTS
-    newClient: async (_: any, args: any, ctx: IContext) => {
+    newClient: async (_, args, ctx) => {
       if (ctx.user == null) throw new Error('Seller must be authenticated')
 
       const { name, lastName, company, email, phone } = args.input
@@ -132,7 +133,7 @@ export const resolvers = {
 
       return newClient(name, lastName, company, email, phone, seller)
     },
-    updateClient: async (_: any, args: any, ctx: IContext) => {
+    updateClient: async (_, args, ctx) => {
       if (ctx.user == null) throw new Error('Seller must be authenticated')
 
       const { id: clientId } = args
@@ -141,7 +142,7 @@ export const resolvers = {
 
       return updateClient(clientId, seller, name, lastName, company, email, phone)
     },
-    deleteClient: async (_: any, args: any, ctx: IContext) => {
+    deleteClient: async (_, args, ctx) => {
       if (ctx.user == null) throw new Error('Seller must be authenticated')
 
       const { id: clientId } = args
@@ -150,7 +151,7 @@ export const resolvers = {
       return deleteClient(clientId, seller)
     },
     // ORDERS
-    newOrder: async (_: any, args: any, ctx: IContext) => {
+    newOrder: async (_, args, ctx) => {
       if (ctx.user == null) throw new Error('Seller must be authenticated')
 
       const { order, total, client, status } = args.input
@@ -158,7 +159,7 @@ export const resolvers = {
 
       return newOrder(client, order, total, status, seller)
     },
-    updateOrder: async (_: any, args: any, ctx: IContext) => {
+    updateOrder: async (_, args, ctx) => {
       if (ctx.user == null) throw new Error('Seller must be authenticated')
 
       const { id: orderId } = args
@@ -167,7 +168,7 @@ export const resolvers = {
 
       return updateOrder(orderId, client, order, total, status, seller)
     },
-    deleteOrder: async (_: any, args: any, ctx: IContext) => {
+    deleteOrder: async (_, args, ctx) => {
       if (ctx.user == null) throw new Error('Seller must be authenticated')
 
       const { id: orderId } = args
