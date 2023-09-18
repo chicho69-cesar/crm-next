@@ -1,9 +1,9 @@
 import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { Inter } from 'next/font/google'
-import { gql } from '@apollo/client'
 
 import { client } from '@/graphql/apollo-client'
+import { HELLO } from '@/graphql/client'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,14 +30,8 @@ export default function Home({ message }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const query = gql`
-    query Query {
-      hello
-    }
-  `
-
   const { data } = await client.query({
-    query
+    query: HELLO
   })
 
   return {
