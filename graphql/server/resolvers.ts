@@ -5,7 +5,7 @@ import { newProduct, getProducts, getProduct, updateProduct, deleteProduct, sear
 import { deleteClient, getClient, getClients, getClientsSeller, newClient, updateClient } from '@/services/clients.service'
 import { deleteOrder, getOrder, getOrders, getOrdersSeller, getOrdersStatus, newOrder, topClients, topSellers, updateOrder } from '@/services/orders.service'
 
-export const resolvers: Resolver = {
+export const resolvers = {
   Query: {
     // TEST
     hello: () => {
@@ -177,4 +177,4 @@ export const resolvers: Resolver = {
       return deleteOrder(orderId, seller)
     }
   }
-}
+} as Resolver

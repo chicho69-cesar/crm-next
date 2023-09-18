@@ -7,7 +7,7 @@ import { IUserLogged, IContext } from '@/interfaces'
 
 const server = new ApolloServer<IContext>({
   typeDefs,
-  resolvers,
+  resolvers: resolvers as any,
 })
 
 export default startServerAndCreateNextHandler(server, {
