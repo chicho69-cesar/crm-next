@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 
 import { client } from '@/graphql/apollo-client'
 import { HELLO } from '@/graphql/client'
+import { MainLayout } from '@/components/layouts'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,9 +14,7 @@ interface Props {
 
 export default function HomePage({ message }: Props) {
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className}`}
-    >
+    <MainLayout title='Home' pageDescription='CRM clients for company administration'>
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <Link href='/api/graphql' className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
           Go to the GraphQL Playground
@@ -25,7 +24,7 @@ export default function HomePage({ message }: Props) {
           {message}
         </h1>
       </div>
-    </main>
+    </MainLayout>
   )
 }
 
