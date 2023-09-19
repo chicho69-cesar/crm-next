@@ -11,7 +11,7 @@ interface Props {
   message: string
 }
 
-export default function Home({ message }: Props) {
+export default function HomePage({ message }: Props) {
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-center p-24 ${inter.className}`}
