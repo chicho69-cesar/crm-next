@@ -31,7 +31,7 @@ export default function LoginPage() {
           </InputWrapper>
 
           <button
-            className='mt-4 w-full bg-slate-900 py-2 px-4 font-bold text-lg text-center rounded-md shadow-lg transition hover:scale-95'
+            className='mt-4 w-full bg-slate-900 py-2 px-4 font-bold text-lg text-center text-white rounded-md shadow-lg transition hover:scale-95'
           >
             Iniciar sesión
           </button>
