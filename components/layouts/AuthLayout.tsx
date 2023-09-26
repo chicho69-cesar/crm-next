@@ -9,7 +9,7 @@ export default function AuthLayout({ children, title }: Props) {
   return (
     <>
       <Head>
-        <title>CRM | {title}</title>
+        <title>{`CRM | ${title}`}</title>
       </Head>
 
       {children}

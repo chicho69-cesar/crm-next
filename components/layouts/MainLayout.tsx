@@ -12,7 +12,7 @@ export default function MainLayout({ title, pageDescription, children, imageFull
   return (
     <>
       <Head>
-        <title>CRM | {title}</title>
+        <title>{`CRM | ${title}`}</title>
 
         <meta name='description' content={pageDescription} />
 
