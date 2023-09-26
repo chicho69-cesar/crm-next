@@ -23,7 +23,7 @@ export default function Navbar() {
 
         <li className='inline-block w-full'>
           <Link
-            href='/'
+            href='/orders'
             className={`
               text-white inline-block w-full rounded-md 
               ${asPath === '/orders' ? 'bg-slate-700 shadow-sm p-2' : ''}`
@@ -35,7 +35,7 @@ export default function Navbar() {
 
         <li className='inline-block w-full'>
           <Link
-            href='/'
+            href='/products'
             className={`
               text-white inline-block w-full rounded-md 
               ${asPath === '/products' ? 'bg-slate-700 shadow-sm p-2' : ''}`
@@ -51,7 +51,7 @@ export default function Navbar() {
       <ul className='list-none w-full mb-6 flex flex-col justify-center items-start gap-4'>
         <li className='inline-block w-full'>
           <Link
-            href='/'
+            href='/sellers'
             className={`
               text-white inline-block w-full rounded-md 
               ${asPath === '/sellers' ? 'bg-slate-700 shadow-sm p-2' : ''}`
@@ -67,7 +67,7 @@ export default function Navbar() {
       <ul className='list-none w-full mb-6 flex flex-col justify-center items-start gap-4'>
         <li className='inline-block w-full'>
           <Link
-            href='/'
+            href='/top-sellers'
             className={`
               text-white inline-block w-full rounded-md 
               ${asPath === '/top-sellers' ? 'bg-slate-700 shadow-sm p-2' : ''}`
@@ -79,7 +79,7 @@ export default function Navbar() {
 
         <li className='inline-block w-full'>
           <Link
-            href='/'
+            href='/top-clients'
             className={`
               text-white inline-block w-full rounded-md 
               ${asPath === '/top-clients' ? 'bg-slate-700 shadow-sm p-2' : ''}`
