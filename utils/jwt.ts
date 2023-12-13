@@ -34,3 +34,16 @@ export function isValidToken(token: string): Promise<string> {
     }
   })
 }
+
+export async function validateToken(token: string): Promise<boolean> {
+  let tokenIsValid: boolean = false
+
+  try {
+    await isValidToken(token)
+    tokenIsValid = true
+  } catch (error) {
+    tokenIsValid = false
+  } finally {
+    return tokenIsValid
+  }
+}

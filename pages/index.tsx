@@ -2,10 +2,11 @@ import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { Inter } from 'next/font/google'
 
-import { client } from '@/graphql/apollo-client'
-import { HELLO } from '@/graphql/client'
+// import { client } from '@/graphql/apollo-client'
+// import { HELLO } from '@/graphql/client'
 import { MainLayout } from '@/components/layouts'
 import { Header } from '@/components/ui'
+import { validateToken } from '@/utils'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,21 +23,33 @@ export default function HomePage({ message }: Props) {
         Go to the GraphQL Playground
       </Link>
 
-      <h1 className='text-3xl text-slate-100 first-letter:text-4xl'>
+      <h1 className='text-3xl text-slate-900 first-letter:text-4xl'>
         {message}
       </h1>
     </MainLayout>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { data } = await client.query({
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { cookies: { token = '' } } = req
+  let isValidToken = await validateToken(token)
+
+  if (!isValidToken) {
+    return {
+      redirect: {
+        destination: '/auth/login',
+        permanent: true
+      }
+    }
+  }
+
+  /* const { data } = await client.query({
     query: HELLO
-  })
+  }) */
 
   return {
     props: {
-      message: data.hello
+      message: 'Holiwis!!!'
     }
   }
 }
