@@ -2,6 +2,7 @@ import { InputWrapper, SubmitError } from '@/components/auth'
 import { AuthLayout } from '@/components/layouts'
 import { client } from '@/graphql/apollo-client'
 import { AUTHENTICATE_USER } from '@/graphql/client'
+import { useAppSelector } from '@/hooks/store'
 import { setSession } from '@/utils/session'
 import { ApolloError } from '@apollo/client'
 import { useRouter } from 'next/router'
@@ -9,6 +10,7 @@ import { useState } from 'react'
 
 export default function LoginPage() {
   const router = useRouter()
+  const auth = useAppSelector((state) => state.auth)
 
   const [formData, setFormData] = useState({
     email: '',
@@ -50,6 +52,7 @@ export default function LoginPage() {
 
       const { authenticateUser: { token } } = data
       await setSession(token)
+      console.log(auth)
 
       router.replace('/')
     } catch (error: any) {
