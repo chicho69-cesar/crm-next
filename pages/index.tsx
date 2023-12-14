@@ -2,29 +2,34 @@ import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { Inter } from 'next/font/google'
 
-// import { client } from '@/graphql/apollo-client'
-// import { HELLO } from '@/graphql/client'
+import { client } from '@/graphql/apollo-client'
 import { MainLayout } from '@/components/layouts'
 import { Header } from '@/components/ui'
 import { validateToken } from '@/utils'
+import { GET_USER } from '@/graphql/client'
+import { type User } from '@/interfaces'
+import useAuthActions from '@/hooks/use-auth-actions'
 
 const inter = Inter({ subsets: ['latin'] })
 
 interface Props {
-  message: string
+  user: User
 }
 
-export default function HomePage({ message }: Props) {
+export default function HomePage({ user }: Props) {
+  const { login } = useAuthActions()
+  login(user)
+
   return (
     <MainLayout title='Home' pageDescription='CRM clients for company administration'>
-      <Header />
+      <Header user={user} />
 
       <Link href='/api/graphql' className="">
         Go to the GraphQL Playground
       </Link>
 
       <h1 className='text-3xl text-slate-900 first-letter:text-4xl'>
-        {message}
+        Hola Mundo
       </h1>
     </MainLayout>
   )
@@ -43,13 +48,18 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     }
   }
 
-  /* const { data } = await client.query({
-    query: HELLO
-  }) */
+  const { data } = await client.query({
+    query: GET_USER,
+    context: {
+      headers: {
+        Authorization: token
+      }
+    }
+  })
 
   return {
     props: {
-      message: 'Holiwis!!!'
+      user: data.getUser
     }
   }
 }

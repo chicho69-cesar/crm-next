@@ -1,11 +1,11 @@
-import { type UserState } from '@/store/auth/slice'
 import { useAppDispatch } from './store'
 import { login, logout } from '@/store/auth/actions'
+import { type User } from '@/interfaces'
 
 export default function useAuthActions() {
   const dispatch = useAppDispatch()
 
-  const handleLogin = (user: UserState) => {
+  const handleLogin = (user: User) => {
     dispatch(login(user))
   }
 
