@@ -1,16 +1,12 @@
 import { GetServerSideProps } from 'next'
 import Link from 'next/link'
-import { Inter } from 'next/font/google'
 
-import { client } from '@/graphql/apollo-client'
 import { MainLayout } from '@/components/layouts'
 import { Header } from '@/components/ui'
-import { validateToken } from '@/utils'
-import { GET_USER } from '@/graphql/client'
-import { type User } from '@/interfaces'
 import useAuthActions from '@/hooks/use-auth-actions'
-
-const inter = Inter({ subsets: ['latin'] })
+import { type User } from '@/interfaces'
+import { getUser } from '@/lib/user.queries'
+import { validateToken } from '@/utils'
 
 interface Props {
   user: User
@@ -48,18 +44,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
     }
   }
 
-  const { data } = await client.query({
-    query: GET_USER,
-    context: {
-      headers: {
-        Authorization: token
-      }
-    }
-  })
+  const user = await getUser(token)
 
   return {
     props: {
-      user: data.getUser
+      user
     }
   }
 }
