@@ -1,7 +1,7 @@
 interface Props {
   label: string
   inputFor: string
-  error?: string
+  error?: string | null
   children: React.ReactNode
 }
 
