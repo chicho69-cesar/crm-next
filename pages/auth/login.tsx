@@ -6,6 +6,7 @@ import { AUTHENTICATE_USER } from '@/graphql/client'
 import { setSession } from '@/utils/session'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { authenticateUser } from '@/graphql/services/users.mutations'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -41,14 +42,7 @@ export default function LoginPage() {
     }
 
     try {
-      const { data } = await client.mutate<any>({
-        mutation: AUTHENTICATE_USER,
-        variables: {
-          input: { ...formData }
-        }
-      })
-
-      const { authenticateUser: { token } } = data
+      const token = await authenticateUser(formData.email, formData.password)
       await setSession(token)
       
       router.replace('/')
