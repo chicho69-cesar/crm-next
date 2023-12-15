@@ -1,16 +1,26 @@
-import { type User } from '@/interfaces'
+import { useRouter } from 'next/router'
+
 import { Button } from '.'
 import { useAppSelector } from '@/hooks/store'
-
-interface Props {
-  user: User
-}
+import useAuthActions from '@/hooks/use-auth-actions'
+import { clearSession } from '@/utils/session'
 
 export default function Header() {
+  const router = useRouter()
   const { user, isAuth } = useAppSelector((state) => state.auth)
+  const { logout } = useAuthActions()
+
+  const handleLogout = () => {
+    const result = clearSession()
+    
+    if (result) {
+      logout()
+      router.replace('/auth/login')
+    }
+  }
 
   return (
-    <div className='w-full p-4 flex justify-between items-center gap-4'>
+    <div className='w-full flex justify-between items-center gap-4'>
       <h2 className='text-xl font-bold'>
         {isAuth ? (
           <span>
@@ -24,7 +34,7 @@ export default function Header() {
       </h2>
 
       {isAuth && (
-        <Button>
+        <Button onClick={handleLogout}>
           Cerrar sesión
         </Button>
       )}
