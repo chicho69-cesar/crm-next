@@ -27,8 +27,10 @@ export default function MainLayout({ title, pageDescription, children, imageFull
       <div className='flex w-full min-h-screen justify-between items-start gap-4'>
         <Navbar />
 
-        <main className='w-full min-h-screen bg-gray-100 pl-[25%]'>
-          {children}
+        <main className='w-full min-h-screen bg-gray-100 pl-[20%]'>
+          <div className='pl-2'>
+            {children}
+          </div>
         </main>
       </div>
     </>

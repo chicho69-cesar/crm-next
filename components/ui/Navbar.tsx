@@ -5,7 +5,7 @@ export default function Navbar() {
   const { asPath } = useRouter()
 
   return (
-    <nav className='w-1/4 bg-slate-800 p-4 flex flex-col items-start justify-start gap-4 h-screen fixed'>
+    <nav className='w-1/5 bg-slate-800 p-4 flex flex-col items-start justify-start gap-4 h-screen fixed'>
       <h3 className='text-2xl text-white font-bold'>CRM Clientes</h3>
 
       <ul className='list-none w-full mb-6 flex flex-col justify-center items-start gap-4'>
