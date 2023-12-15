@@ -1,42 +1,30 @@
 import { ApolloError } from '@apollo/client'
-import { InputWrapper, SubmitError } from '@/components/auth'
-import { AuthLayout } from '@/components/layouts'
-import { client } from '@/graphql/apollo-client'
-import { AUTHENTICATE_USER } from '@/graphql/client'
-import { setSession } from '@/utils/session'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+
+import { AuthLayout } from '@/components/layouts'
+import { InputWrapper, SubmitError } from '@/components/ui'
 import { authenticateUser } from '@/graphql/services/users.mutations'
+import useForm from '@/hooks/use-form'
+import { setSession } from '@/utils/session'
+
+type FormData = {
+  email: string
+  password: string
+} 
 
 export default function LoginPage() {
   const router = useRouter()
-
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+  const { formData, errors, submitError, setSubmitError, handleChange, resetForm } = useForm<FormData>({
+    initialValues: {
+      email: '',
+      password: ''
+    }
   })
-
-  const [errors, setErrors] = useState({
-    email: null,
-    password: null
-  })
-
-  const [submitError, setSubmitError] = useState<string | null>(null)
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-
-    if (e.target.value === '' || !e.target.value) setErrors({
-      ...errors,
-      [e.target.name]: `El ${e.target.name} es requerido`
-    })
-    else setErrors({ ...errors, [e.target.name]: null })
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (Object.values(errors).some(error => error !== null)) {
+    if (Object.values(errors).some(error => error !== undefined)) {
       setSubmitError('Por favor, complete todos los campos')
       return
     }
