@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { Navbar } from '../ui'
+import { Header, Navbar } from '../ui'
 
 interface Props {
   title: string
@@ -28,7 +28,9 @@ export default function MainLayout({ title, pageDescription, children, imageFull
         <Navbar />
 
         <main className='w-full min-h-screen bg-gray-100 pl-[20%]'>
-          <div className='pl-2'>
+          <div className='p-4'>
+            <Header />
+            
             {children}
           </div>
         </main>

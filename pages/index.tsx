@@ -1,32 +1,33 @@
 import { GetServerSideProps } from 'next'
-import Link from 'next/link'
 
 import { MainLayout } from '@/components/layouts'
-import { Header } from '@/components/ui'
 import useAuthActions from '@/hooks/use-auth-actions'
-import { type User } from '@/interfaces'
-import { getUser } from '@/lib/user.queries'
+import { Client, type User } from '@/interfaces'
+import { getUser } from '@/graphql/services/users.queries'
 import { validateToken } from '@/utils'
+import { getClientsSeller } from '@/graphql/services/clients.queries'
 
 interface Props {
   user: User
+  token: string
+  clients: Client[]
 }
 
-export default function HomePage({ user }: Props) {
+export default function HomePage({ user, token, clients }: Props) {
   const { login } = useAuthActions()
-  login(user)
+  login(user, token)
 
   return (
     <MainLayout title='Home' pageDescription='CRM clients for company administration'>
-      <Header user={user} />
-
-      <Link href='/api/graphql' className="">
-        Go to the GraphQL Playground
-      </Link>
-
       <h1 className='text-3xl text-slate-900 first-letter:text-4xl'>
         Hola Mundo
       </h1>
+
+      {clients.map((client) => (
+        <p key={client.id}>
+          {client.name}
+        </p>
+      ))}
     </MainLayout>
   )
 }
@@ -45,10 +46,13 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   }
 
   const user = await getUser(token)
+  const clients = await getClientsSeller(token)
 
   return {
     props: {
-      user
+      user,
+      token,
+      clients
     }
   }
 }
