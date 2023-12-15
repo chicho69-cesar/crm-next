@@ -61,3 +61,16 @@ Para acceder al proyecto web una vez que esta corriendo, accedemos al enlace: <l
 Si usamos el puerto 80: <localhost:80/>
 
 Para acceder al query sandbox de apollo server, accedemos al enlace: <localhost:3000/api/graphql>
+
+## 🌻 Llamar al Seed Data
+
+Para poder llenar la base de datos con los datos preparados por defecto unicamente se debe de llamar a la siguiente mutación de GraphQL para hacerlo, esto se puede hacer desde el Query Sandbox que se ejecuta en el link <localhost:3000/api/graphql>, o desde postman al mismo enlace:
+
+```graphql
+mutation SeedData {
+  seedData {
+    message
+    wasSuccessful
+  }
+}
+```
