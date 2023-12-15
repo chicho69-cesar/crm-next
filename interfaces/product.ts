@@ -6,3 +6,11 @@ export interface IProduct {
   createdAt?: string
   updatedAt?: string
 }
+
+export interface Product {
+  id: string
+  name: string
+  price: number
+  existence: number
+  createdAt?: string
+}

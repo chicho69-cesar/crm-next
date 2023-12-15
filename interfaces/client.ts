@@ -9,3 +9,13 @@ export interface IClient {
   createdAt?: string
   updatedAt?: string
 }
+
+export interface Client {
+  id: string
+  name: string
+  lastName: string
+  email: string
+  company: string
+  phone: string
+  seller: string
+}
