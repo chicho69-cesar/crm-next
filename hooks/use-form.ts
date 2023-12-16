@@ -20,8 +20,10 @@ export default function useForm<T extends Record<string, string>>({ initialValue
     }
   }
 
-  const resetForm = () => {
-    setFormData(initialValues)
+  const resetForm = (newValues?: T) => {
+    if (newValues) setFormData(newValues)
+    else setFormData(initialValues)
+    
     setErrors({})
     setSubmitError(null)
   }
@@ -31,6 +33,7 @@ export default function useForm<T extends Record<string, string>>({ initialValue
     errors,
     submitError,
     setSubmitError,
+    setFormData,
     handleChange,
     resetForm
   }
