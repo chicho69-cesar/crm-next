@@ -1,7 +1,7 @@
 import { useEffect, useState, ReactNode } from 'react'
 
 interface Props {
-  children: ReactNode | ReactNode[]
+  children?: ReactNode | ReactNode[]
 }
 
 export default function ClientOnly({ children, ...delegated }: Props) {

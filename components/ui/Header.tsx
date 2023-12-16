@@ -20,7 +20,7 @@ export default function Header() {
   }
 
   return (
-    <div className='w-full flex justify-between items-center gap-4'>
+    <div className='w-full mb-4 flex justify-between items-center gap-4'>
       <h2 className='text-xl font-bold'>
         {isAuth ? (
           <span>
