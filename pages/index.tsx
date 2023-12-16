@@ -2,32 +2,32 @@ import { GetServerSideProps } from 'next'
 
 import { MainLayout } from '@/components/layouts'
 import useAuthActions from '@/hooks/use-auth-actions'
-import { Client, type User } from '@/interfaces'
+import { type User } from '@/interfaces'
 import { getUser } from '@/graphql/services/users.queries'
 import { validateToken } from '@/utils'
-import { getClientsSeller } from '@/graphql/services/clients.queries'
+import { LinkButton } from '@/components/ui'
+import { TableOfClients } from '@/components/clients'
 
 interface Props {
   user: User
   token: string
-  clients: Client[]
 }
 
-export default function HomePage({ user, token, clients }: Props) {
+export default function HomePage({ user, token }: Props) {
   const { login } = useAuthActions()
   login(user, token)
 
   return (
     <MainLayout title='Home' pageDescription='CRM clients for company administration'>
-      <h1 className='text-3xl text-slate-900 first-letter:text-4xl'>
-        Hola Mundo
+      <h1 className='text-3xl mt-4 mb-2 text-slate-900 first-letter:text-4xl'>
+        Clientes
       </h1>
 
-      {clients.map((client) => (
-        <p key={client.id}>
-          {client.name}
-        </p>
-      ))}
+      <LinkButton size='lg' to='/new-client'>
+        Nuevo Cliente
+      </LinkButton>
+
+      <TableOfClients />
     </MainLayout>
   )
 }
@@ -46,13 +46,11 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   }
 
   const user = await getUser(token)
-  const clients = await getClientsSeller(token)
 
   return {
     props: {
       user,
-      token,
-      clients
+      token
     }
   }
 }

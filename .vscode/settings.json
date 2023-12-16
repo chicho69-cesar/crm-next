@@ -3,6 +3,9 @@
         "crmdb",
         "esnext",
         "Lizeth",
+        "reduxjs",
+        "Swal",
+        "sweetalert",
         "tailwindcss"
     ]
 }
