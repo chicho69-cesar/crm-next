@@ -1,6 +1,6 @@
 import { type User } from '@/interfaces'
 import { client } from '../apollo-client'
-import { GET_USER } from '../client'
+import { GET_USER, GET_USERS } from '../client'
 
 export async function getUser(token: string) {
   const { data } = await client.query({
@@ -13,4 +13,12 @@ export async function getUser(token: string) {
   })
 
   return data.getUser as User
+}
+
+export async function getUsers() {
+  const { data } = await client.query({
+    query: GET_USERS
+  })
+
+  return data.getUsers as User[]
 }
