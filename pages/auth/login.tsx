@@ -14,7 +14,7 @@ type FormData = {
 
 export default function LoginPage() {
   const router = useRouter()
-  const { formData, errors, submitError, setSubmitError, handleChange, resetForm } = useForm<FormData>({
+  const { formData, errors, submitError, setSubmitError, handleChange } = useForm<FormData>({
     initialValues: {
       email: '',
       password: ''
