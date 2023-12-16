@@ -1,6 +1,6 @@
 import { seedData } from '@/database'
 import { Resolver } from '@/interfaces'
-import { getUser, newUser, authenticateUser } from '@/services/users.service'
+import { getUser, newUser, authenticateUser, updateUser, deleteUser, getUsers } from '@/services/users.service'
 import { newProduct, getProducts, getProduct, updateProduct, deleteProduct, searchProduct } from '@/services/products.service'
 import { deleteClient, getClient, getClients, getClientsSeller, newClient, updateClient } from '@/services/clients.service'
 import { deleteOrder, getOrder, getOrders, getOrdersSeller, getOrdersStatus, newOrder, topClients, topSellers, updateOrder } from '@/services/orders.service'
@@ -17,6 +17,9 @@ export const resolvers = {
       
       const { _id: userId } = ctx.user
       return getUser(userId)
+    },
+    getUsers: async () => {
+      return getUsers()
     },
     // PRODUCTS
     getProducts: async () => {
@@ -104,6 +107,15 @@ export const resolvers = {
     newUser: async (_, args) => {
       const { name, lastName, email, password } = args.input
       return newUser(name, lastName, email, password)
+    },
+    updateUser: async (_, args) => {
+      const { id: userId } = args
+      const { name, lastName, email, password } = args.input
+      return updateUser(userId, name, lastName, email, password)
+    },
+    deleteUser: async (_, args) => {
+      const { id } = args
+      return deleteUser(id)
     },
     authenticateUser: async (_, args) => {
       const { email, password } = args.input

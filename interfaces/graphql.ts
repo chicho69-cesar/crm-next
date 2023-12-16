@@ -9,6 +9,7 @@ export interface Resolver {
 export interface QueryGql {
   hello:            ResolverFunc<any>
   getUser:          ResolverFunc<any>
+  getUsers:         ResolverFunc<any>
   getProducts:      ResolverFunc<any>
   getProduct:       ResolverFunc<{ id: string}>
   getClients:       ResolverFunc<any>
@@ -27,6 +28,8 @@ export interface MutationGql {
   test:             ResolverFunc<{ message: string }>
   seedData:         ResolverFunc<any>
   newUser:          ResolverFunc<InputUser>
+  updateUser:       ResolverFunc<InputUser & { id: string }>
+  deleteUser:       ResolverFunc<{ id: string}>
   authenticateUser: ResolverFunc<InputAuth>
   newProduct:       ResolverFunc<InputProduct>
   updateProduct:    ResolverFunc<InputProduct & { id: string }>

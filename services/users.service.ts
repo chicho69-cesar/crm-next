@@ -54,6 +54,21 @@ export async function getUser(userId: string) {
   }
 }
 
+export async function getUsers() {
+  try {
+    await db.connect()
+    const users = await User.find({})
+    await db.disconnect()
+
+    return users
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error('Error getting sellers')
+  }
+}
+
 export async function newUser(
   name: string,
   lastName: string,
@@ -80,6 +95,58 @@ export async function newUser(
     await db.disconnect()
 
     return user
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error((error as GqlError).message)
+  }
+}
+
+export async function updateUser(
+  userId: string,
+  name: string,
+  lastName: string,
+  email: string,
+  password: string
+) {
+  try {
+    await db.connect()
+
+    const user = await User.findById(userId)
+    if (!user) throw new Error('This user does not exists')
+
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    const userUpdated = await User.findByIdAndUpdate(
+      { _id: userId },
+      { name, lastName, email, password: hashedPassword },
+      { new: true }
+    )
+
+    await db.disconnect()
+
+    return userUpdated
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error((error as GqlError).message)
+  }
+}
+
+export async function deleteUser(userId: string) {
+  try {
+    await db.connect()
+
+    const client = await User.findById(userId)
+    if (!client) throw new Error(`The user with id: ${userId} does not exists`)
+
+    await User.findOneAndDelete({ _id: userId })
+    await db.disconnect()
+
+    return 'The user was deleted successfully'
   } catch (error) {
     console.log(error)
     await db.disconnect()
