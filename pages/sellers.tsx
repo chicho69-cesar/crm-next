@@ -1,6 +1,8 @@
 import { GetServerSideProps } from 'next'
 
 import { MainLayout } from '@/components/layouts'
+import { TableOfSellers } from '@/components/sellers'
+import { LinkButton } from '@/components/ui'
 import { getUser } from '@/graphql/services/users.queries'
 import useAuthActions from '@/hooks/use-auth-actions'
 import { User } from '@/interfaces'
@@ -17,9 +19,15 @@ export default function SellersPage({ token, user }: Props) {
 
   return (
     <MainLayout title='Sellers' pageDescription='CRM clients for company administration'>
-      <h1 className='text-3xl text-slate-900 first-letter:text-4xl'>
-        Hola Mundo
+      <h1 className='text-3xl mt-4 mb-2 text-slate-900 first-letter:text-4xl'>
+        Vendedores
       </h1>
+
+      <LinkButton size='lg' to='/new-seller'>
+        Nuevo Vendedor
+      </LinkButton>
+
+      <TableOfSellers />
     </MainLayout>
   )
 }
