@@ -1,6 +1,6 @@
 import { type Client } from '@/interfaces'
 import { client } from '../apollo-client'
-import { DELETE_CLIENT, GET_CLIENTS, GET_CLIENTS_SELLER, NEW_CLIENT, UPDATE_CLIENT } from '../client'
+import { DELETE_CLIENT, GET_CLIENTS, GET_CLIENTS_SELLER, GET_TOP_CLIENTS, NEW_CLIENT, UPDATE_CLIENT } from '../client'
 
 export async function newClient(token: string, name: string, lastName: string, company: string, email: string, phone: string) {
   const { data } = await client.mutate({
@@ -22,6 +22,7 @@ export async function newClient(token: string, name: string, lastName: string, c
     refetchQueries: [
       { query: GET_CLIENTS, context: { headers: { Authorization: token } } },
       { query: GET_CLIENTS_SELLER, context: { headers: { Authorization: token } } },
+      { query: GET_TOP_CLIENTS }
     ]
   })
 
@@ -50,6 +51,7 @@ export async function updateClient(token: string, id: string, name: string, last
     refetchQueries: [
       { query: GET_CLIENTS, context: { headers: { Authorization: token } } },
       { query: GET_CLIENTS_SELLER, context: { headers: { Authorization: token } } },
+      { query: GET_TOP_CLIENTS }
     ]
   })
 
@@ -71,6 +73,7 @@ export async function deleteClient(token: string, id: string) {
     refetchQueries: [
       { query: GET_CLIENTS, context: { headers: { Authorization: token } } },
       { query: GET_CLIENTS_SELLER, context: { headers: { Authorization: token } } },
+      { query: GET_TOP_CLIENTS }
     ]
   })
 }

@@ -1,6 +1,6 @@
 import { type User } from '@/interfaces'
 import { client } from '../apollo-client'
-import { AUTHENTICATE_USER, DELETE_USER, NEW_USER, UPDATE_USER } from '../client'
+import { AUTHENTICATE_USER, DELETE_USER, GET_TOP_SELLERS, GET_USERS, NEW_USER, UPDATE_USER } from '../client'
 
 export async function newUser(name: string, lastName: string, email: string, password: string) {
   const { data } = await client.mutate({
@@ -12,7 +12,11 @@ export async function newUser(name: string, lastName: string, email: string, pas
         email,
         password
       }
-    }
+    },
+    refetchQueries: [
+      { query: GET_USERS },
+      { query: GET_TOP_SELLERS }
+    ]
   })
 
   const { newUser } = data
@@ -30,7 +34,11 @@ export async function updateUser(id: string, name: string, lastName: string, ema
         email,
         password
       }
-    }
+    },
+    refetchQueries: [
+      { query: GET_USERS },
+      { query: GET_TOP_SELLERS }
+    ]
   })
 
   const { updateUser } = data
@@ -42,7 +50,11 @@ export async function deleteUser(id: string) {
     mutation: DELETE_USER,
     variables: {
       deleteUserId: id
-    }
+    },
+    refetchQueries: [
+      { query: GET_USERS },
+      { query: GET_TOP_SELLERS }
+    ]
   })
 }
 

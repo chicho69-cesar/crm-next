@@ -1,6 +1,6 @@
 import { type Product } from '@/interfaces'
 import { client } from '../apollo-client'
-import { DELETE_PRODUCT, NEW_PRODUCT, UPDATE_PRODUCT } from '../client'
+import { DELETE_PRODUCT, GET_PRODUCTS, NEW_PRODUCT, UPDATE_PRODUCT } from '../client'
 
 export async function newProduct(name: string, existence: number, price: number) {
   const { data } = await client.mutate({
@@ -11,7 +11,10 @@ export async function newProduct(name: string, existence: number, price: number)
         existence,
         price
       }
-    }
+    },
+    refetchQueries: [
+      { query: GET_PRODUCTS }
+    ]
   })
 
   const { newProduct } = data
@@ -28,7 +31,10 @@ export async function updateProduct(id: string, name: string, existence: number,
         existence,
         price
       }
-    }
+    },
+    refetchQueries: [
+      { query: GET_PRODUCTS }
+    ]
   })
 
   const { updateProduct } = data
@@ -40,6 +46,9 @@ export async function deleteProduct(id: string) {
     mutation: DELETE_PRODUCT,
     variables: {
       deleteProductId: id
-    }
+    },
+    refetchQueries: [
+      { query: GET_PRODUCTS }
+    ]
   })
 }
