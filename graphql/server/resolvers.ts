@@ -18,6 +18,10 @@ export const resolvers = {
       const { _id: userId } = ctx.user
       return getUser(userId)
     },
+    getUserById: async (_, args) => {
+      const { id } = args
+      return getUser(id)
+    },
     getUsers: async () => {
       return getUsers()
     },

@@ -115,6 +115,7 @@ export const typeDefs = gql`
 
     # Users
     getUser: User
+    getUserById(id: ID!): User
     getUsers: [User]
 
     # Products

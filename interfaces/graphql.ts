@@ -9,6 +9,7 @@ export interface Resolver {
 export interface QueryGql {
   hello:            ResolverFunc<any>
   getUser:          ResolverFunc<any>
+  getUserById:      ResolverFunc<any>
   getUsers:         ResolverFunc<any>
   getProducts:      ResolverFunc<any>
   getProduct:       ResolverFunc<{ id: string}>
