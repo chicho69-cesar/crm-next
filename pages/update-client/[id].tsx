@@ -86,7 +86,9 @@ export default function UpdateClientPage({ user, token, id }: Props) {
       </h1>
 
       <form className='block w-1/2 mx-auto mt-8 bg-white py-4 px-6 shadow-lg' onSubmit={handleSubmit}>
-        {submitError && <SubmitError message={submitError} />}
+        <div className='mb-4'>
+          {submitError && <SubmitError message={submitError} />}
+        </div>
 
         <InputWrapper inputFor='name' label='Nombre'>
           <input
