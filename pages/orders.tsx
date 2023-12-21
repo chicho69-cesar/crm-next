@@ -5,6 +5,8 @@ import { getUser } from '@/graphql/services/users.queries'
 import useAuthActions from '@/hooks/use-auth-actions'
 import { User } from '@/interfaces'
 import { validateToken } from '@/utils'
+import { LinkButton } from '@/components/ui'
+import { ListOfOrders } from '@/components/orders'
 
 interface Props {
   user: User
@@ -17,9 +19,15 @@ export default function OrdersPage({ token, user }: Props) {
 
   return (
     <MainLayout title='Orders' pageDescription='CRM clients for company administration'>
-      <h1 className='text-3xl text-slate-900 first-letter:text-4xl'>
-        Hola Mundo
+      <h1 className='text-3xl mt-4 mb-2 text-slate-900 first-letter:text-4xl'>
+        Pedidos
       </h1>
+
+      <LinkButton size='lg' to='/new-order'>
+        Nuevo Pedido
+      </LinkButton>
+
+      <ListOfOrders />
     </MainLayout>
   )
 }
