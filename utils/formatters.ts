@@ -4,3 +4,9 @@ export const priceFormatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 2,
   style: 'currency'
 })
+
+export const dateFormatter = new Intl.DateTimeFormat('es-MX', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+})

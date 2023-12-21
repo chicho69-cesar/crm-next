@@ -40,6 +40,7 @@ export interface MutationGql {
   deleteClient:     ResolverFunc<{ id: string }>
   newOrder:         ResolverFunc<InputOrder>
   updateOrder:      ResolverFunc<InputOrder & { id: string }>
+  updateOrderStatus:ResolverFunc<{ id: string, status: OrderStatus }>
   deleteOrder:      ResolverFunc<{ id: string }>
 }
 
