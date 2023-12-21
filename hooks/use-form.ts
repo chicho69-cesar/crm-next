@@ -9,7 +9,7 @@ export default function useForm<T extends Record<string, string>>({ initialValue
   const [errors, setErrors] = useState<Partial<T>>({})
   const [submitError, setSubmitError] = useState<string | null>(null)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData((prevData) => ({ ...prevData, [name]: value }))
 
