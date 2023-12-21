@@ -166,6 +166,7 @@ export const typeDefs = gql`
     # Orders
     newOrder(input: OrderInput): Order
     updateOrder(id: ID!, input: OrderInput): Order
+    updateOrderStatus(id: ID!, status: OrderStatus): Order
     deleteOrder(id: ID!): String
   }
 `

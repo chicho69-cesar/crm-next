@@ -3,7 +3,7 @@ import { Resolver } from '@/interfaces'
 import { getUser, newUser, authenticateUser, updateUser, deleteUser, getUsers } from '@/services/users.service'
 import { newProduct, getProducts, getProduct, updateProduct, deleteProduct, searchProduct } from '@/services/products.service'
 import { deleteClient, getClient, getClients, getClientsSeller, newClient, updateClient } from '@/services/clients.service'
-import { deleteOrder, getOrder, getOrders, getOrdersSeller, getOrdersStatus, newOrder, topClients, topSellers, updateOrder } from '@/services/orders.service'
+import { deleteOrder, getOrder, getOrders, getOrdersSeller, getOrdersStatus, newOrder, topClients, topSellers, updateOrder, updateOrderStatus } from '@/services/orders.service'
 
 export const resolvers = {
   Query: {
@@ -183,6 +183,12 @@ export const resolvers = {
       const { _id: seller } = ctx.user
 
       return updateOrder(orderId, client, order, total, status, seller)
+    },
+    updateOrderStatus: async (_, args, ctx) => {
+      if (ctx.user == null) throw new Error('Seller must be authenticated')
+
+      const { id: orderId, status } = args
+      return updateOrderStatus(orderId, status)
     },
     deleteOrder: async (_, args, ctx) => {
       if (ctx.user == null) throw new Error('Seller must be authenticated')

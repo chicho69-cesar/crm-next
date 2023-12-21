@@ -180,6 +180,31 @@ export async function updateOrder(
   }
 }
 
+export async function updateOrderStatus(orderId: string, status: OrderStatus) {
+  try {
+    await db.connect()
+
+    const orderExists = await Order.findById(orderId)
+    if (!orderExists) throw new Error('This order does not exist')
+
+    const result = await Order.findByIdAndUpdate(
+      orderId,
+      { status },
+      { new: true }
+    )
+
+    await result?.populate('client')
+    await db.disconnect()
+
+    return result
+  } catch (error) {
+    console.log(error)
+    await db.disconnect()
+
+    throw new Error((error as GqlError).message)
+  }
+}
+
 export async function deleteOrder(orderId: string, sellerId: string) {
   try {
     await db.connect()
